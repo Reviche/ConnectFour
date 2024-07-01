@@ -37,13 +37,8 @@ public class Board
         }
     }
     
-    
-    
-    public static void ReplaceTile(string tile, string playerPiece)
+    public static int[] ReplaceTile(string tile, string playerPiece)
     {
-        //2B
-        // '2','B'
-
         string alph = "ABCDEF";
         
         char[] tileChars = tile.ToCharArray();
@@ -63,9 +58,42 @@ public class Board
         }
 
         board[secondValue,firstValue-1] = playerPiece;
-        
+
         Console.Clear();
         NewBoard();
 
+        int[] replacedTile = { secondValue, firstValue - 1 };
+        return replacedTile;
+    }
+
+    public static bool CheckWinnner(Player player)
+    {
+        int counter = 0;
+
+        for (int i = 0; i < board.GetLength(0); i++)
+        {
+            
+            for (int j = 0; j < board.GetLength(1)-1; j++)
+            {
+
+                if (board[i, j] == player.playerNumber && board[i, j + 1] == player.playerNumber)
+                {
+                    counter++;
+                }
+
+                if (counter == 3)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine($"Player {player.playerNumber} won!");
+                    return false;
+                    
+                }
+                   
+            }
+
+            counter = 0;
+        }
+
+        return true;
     }
 }
