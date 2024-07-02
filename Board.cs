@@ -92,8 +92,50 @@ public class Board
             }
 
             counter = 0;
-        }
+            
+            for (int j = 0; j < board.GetLength(0)-1; j++)
+            {
 
+                if (board[j, i] == player.playerNumber && board[j + 1, i] == player.playerNumber)
+                {
+                    counter++;
+                }
+
+                if (counter == 3)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine($"Player {player.playerNumber} won!");
+                    return false;
+                    
+                }
+                   
+            }
+
+            counter = 0;
+        }
+        //diagonal checks
+        for (int i = board.GetLength(0)-3; i > 0; i--)
+        {
+            
+            for (int j = i;  j < board.GetLength(1)-1; j++)
+            {
+
+                if (board[j-i, j] == player.playerNumber && board[j-(i-1), j + 1] == player.playerNumber)
+                {
+                    counter++;
+                }
+
+                if (counter == 3)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine($"Player {player.playerNumber} won!");
+                    return false;
+                    
+                }
+                   
+            }
+            counter = 0;
+        }
         return true;
     }
 }
