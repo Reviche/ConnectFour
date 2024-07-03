@@ -17,10 +17,14 @@ public class Player
         do
         {
             playerMove = Console.ReadLine();
+            if (playerMove.Length != 2)
+            {
+                Console.WriteLine("Please Enter a valid move.");
+            }
 
         } while (playerMove.Length != 2);
 
-        return playerMove;
+        return playerMove.ToUpper();
 
     }
 

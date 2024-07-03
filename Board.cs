@@ -45,17 +45,38 @@ public class Board
 
         int firstValue = tileChars[0] - '0';
         int secondValue = alph.IndexOf(tileChars[1]);
+        
+        while (tileChars[1] < 'F' || firstValue > 7 )
+        {
+            Console.WriteLine("That not a valid move! Try Again!");
+            tile = Console.ReadLine();
+            tileChars = tile.ToUpper().ToCharArray();
+            firstValue = tileChars[0] - '0';
+            secondValue = alph.IndexOf(tileChars[1]);
+        }
+        
+        
         if (secondValue != 5)
         {
             while (board[secondValue + 1, firstValue - 1] == "0")
             {
                 Console.WriteLine("Can't place floating chips! Try Again!");
                 tile = Console.ReadLine();
-                tileChars = tile.ToCharArray();
+                tileChars = tile.ToUpper().ToCharArray();
                 firstValue = tileChars[0] - '0';
                 secondValue = alph.IndexOf(tileChars[1]);
             }
         }
+        
+        while (board[secondValue,firstValue-1] == "1" || board[secondValue,firstValue-1] == "2")
+        {
+            Console.WriteLine("There is already a chip there! Try Again!");
+            tile = Console.ReadLine();
+            tileChars = tile.ToUpper().ToCharArray();
+            firstValue = tileChars[0] - '0';
+            secondValue = alph.IndexOf(tileChars[1]);
+        }
+        
 
         board[secondValue,firstValue-1] = playerPiece;
 
@@ -80,6 +101,12 @@ public class Board
                 {
                     counter++;
                 }
+                else
+                {
+                    
+                    counter=0;
+                    
+                }
 
                 if (counter == 3)
                 {
@@ -88,7 +115,7 @@ public class Board
                     return false;
                     
                 }
-                   
+                
             }
 
             counter = 0;
@@ -100,6 +127,10 @@ public class Board
                 {
                     counter++;
                 }
+                else
+                {
+                    counter = 0;
+                }
 
                 if (counter == 3)
                 {
@@ -108,34 +139,64 @@ public class Board
                     return false;
                     
                 }
-                   
+                
             }
 
             counter = 0;
         }
         //diagonal checks
-        for (int i = board.GetLength(0)-3; i > 0; i--)
+        
+        for (int i = 3; i < board.GetLength(0); i++)
         {
             
-            for (int j = i;  j < board.GetLength(1)-1; j++)
+            for (int j = 0; j < board.GetLength(1) - 3; j++)
             {
-
-                if (board[j-i, j] == player.playerNumber && board[j-(i-1), j + 1] == player.playerNumber)
-                {
-                    counter++;
-                }
-
-                if (counter == 3)
+                
+                if (board[i, j] == player.playerNumber && board[i - 1, j + 1] == player.playerNumber && 
+                    board[i - 2, j + 2] == player.playerNumber && board[i - 3, j + 3] == player.playerNumber)
+                    
                 {
                     Console.WriteLine();
                     Console.WriteLine($"Player {player.playerNumber} won!");
                     return false;
-                    
                 }
-                   
+                
             }
-            counter = 0;
+            
         }
+        
+        for (int i = 0; i < board.GetLength(0) - 3; i++)
+        {
+            
+            for (int j = 0; j < board.GetLength(1) - 3; j++)
+            {
+                
+                if (board[i, j] == player.playerNumber && board[i + 1, j + 1] == player.playerNumber && 
+                    board[i + 2, j + 2] == player.playerNumber && board[i + 3, j + 3] == player.playerNumber)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine($"Player {player.playerNumber} won!");
+                    return false;
+                }
+                
+            }
+            
+        }
+        
         return true;
+    }
+
+    public static bool IsDraw()
+    {
+        foreach (var tile in board)
+        {
+            if (tile.Contains("0"))
+            {
+                return true;
+            }
+            
+        }
+
+        return false;
     }
 }

@@ -18,7 +18,7 @@ class Program
             winner = Board.CheckWinnner(player2);
             if(winner == false) break;
 
-        } while (true);
+        } while (Board.IsDraw());
         
         
     }
