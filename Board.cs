@@ -2,7 +2,7 @@ namespace ConnectFour;
 
 public class Board
 {
-    public static string[,] board =
+    protected static readonly string[,] board =
     {
         { "0", "0", "0", "0", "0", "0", "0" },
         { "0", "0", "0", "0", "0", "0", "0" },
@@ -37,51 +37,13 @@ public class Board
         }
     }
     
-    public static int[] ReplaceTile(string tile, string playerPiece)
+    public static void ReplaceTile(int[] tileSpot, string playerPiece)
     {
-        string alph = "ABCDEF";
         
-        char[] tileChars = tile.ToCharArray();
-
-        int firstValue = tileChars[0] - '0';
-        int secondValue = alph.IndexOf(tileChars[1]);
-        
-        while (tileChars[1] > 'F' || firstValue > 7 )
-        {
-            Console.WriteLine("That not a valid move! Try Again!");
-            tile = Console.ReadLine();
-            tileChars = tile.ToUpper().ToCharArray();
-            firstValue = tileChars[0] - '0';
-            secondValue = alph.IndexOf(tileChars[1]);
-        }
-
-        while (secondValue != 5 && board[secondValue + 1, firstValue - 1] == "0")
-        {
-            Console.WriteLine("Can't place floating chips! Try Again!");
-            tile = Console.ReadLine();
-            tileChars = tile.ToUpper().ToCharArray();
-            firstValue = tileChars[0] - '0';
-            secondValue = alph.IndexOf(tileChars[1]);
-        }
-        
-        
-        while (board[secondValue,firstValue-1] == "1" || board[secondValue,firstValue-1] == "2")
-        {
-            Console.WriteLine("There is already a chip there! Try Again!");
-            tile = Console.ReadLine();
-            tileChars = tile.ToUpper().ToCharArray();
-            firstValue = tileChars[0] - '0';
-            secondValue = alph.IndexOf(tileChars[1]);
-        }
-        
-
-        board[secondValue,firstValue-1] = playerPiece;
+        board[tileSpot[1],tileSpot[0]] = playerPiece;
 
         Console.Clear();
         NewBoard();
-
-        int[] replacedTile = { secondValue, firstValue - 1 };
-        return replacedTile;
     }
 
     public static bool CheckWinnner(Player player)
@@ -94,7 +56,7 @@ public class Board
             for (int j = 0; j < board.GetLength(1)-1; j++)
             {
 
-                if (board[i, j] == player.playerNumber && board[i, j + 1] == player.playerNumber)
+                if (board[i, j] == player.PlayerNumber && board[i, j + 1] == player.PlayerNumber)
                 {
                     counter++;
                 }
@@ -107,8 +69,7 @@ public class Board
 
                 if (counter == 3)
                 {
-                    Console.WriteLine();
-                    Console.WriteLine($"Player {player.playerNumber} won!");
+                    
                     return false;
                     
                 }
@@ -120,7 +81,7 @@ public class Board
             for (int j = 0; j < board.GetLength(0)-1; j++)
             {
 
-                if (board[j, i] == player.playerNumber && board[j + 1, i] == player.playerNumber)
+                if (board[j, i] == player.PlayerNumber && board[j + 1, i] == player.PlayerNumber)
                 {
                     counter++;
                 }
@@ -131,8 +92,7 @@ public class Board
 
                 if (counter == 3)
                 {
-                    Console.WriteLine();
-                    Console.WriteLine($"Player {player.playerNumber} won!");
+                    
                     return false;
                     
                 }
@@ -149,12 +109,10 @@ public class Board
             for (int j = 0; j < board.GetLength(1) - 3; j++)
             {
                 
-                if (board[i, j] == player.playerNumber && board[i - 1, j + 1] == player.playerNumber && 
-                    board[i - 2, j + 2] == player.playerNumber && board[i - 3, j + 3] == player.playerNumber)
+                if (board[i, j] == player.PlayerNumber && board[i - 1, j + 1] == player.PlayerNumber && 
+                    board[i - 2, j + 2] == player.PlayerNumber && board[i - 3, j + 3] == player.PlayerNumber)
                     
                 {
-                    Console.WriteLine();
-                    Console.WriteLine($"Player {player.playerNumber} won!");
                     return false;
                 }
                 
@@ -168,11 +126,9 @@ public class Board
             for (int j = 0; j < board.GetLength(1) - 3; j++)
             {
                 
-                if (board[i, j] == player.playerNumber && board[i + 1, j + 1] == player.playerNumber && 
-                    board[i + 2, j + 2] == player.playerNumber && board[i + 3, j + 3] == player.playerNumber)
+                if (board[i, j] == player.PlayerNumber && board[i + 1, j + 1] == player.PlayerNumber && 
+                    board[i + 2, j + 2] == player.PlayerNumber && board[i + 3, j + 3] == player.PlayerNumber)
                 {
-                    Console.WriteLine();
-                    Console.WriteLine($"Player {player.playerNumber} won!");
                     return false;
                 }
                 
@@ -189,11 +145,13 @@ public class Board
         {
             if (tile.Contains("0"))
             {
+                
                 return true;
             }
             
         }
-
+        Console.WriteLine();
+        Console.WriteLine("It's a Draw!");
         return false;
     }
 }
