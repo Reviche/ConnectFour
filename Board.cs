@@ -46,7 +46,7 @@ public class Board
         int firstValue = tileChars[0] - '0';
         int secondValue = alph.IndexOf(tileChars[1]);
         
-        while (tileChars[1] < 'F' || firstValue > 7 )
+        while (tileChars[1] > 'F' || firstValue > 7 )
         {
             Console.WriteLine("That not a valid move! Try Again!");
             tile = Console.ReadLine();
@@ -54,19 +54,16 @@ public class Board
             firstValue = tileChars[0] - '0';
             secondValue = alph.IndexOf(tileChars[1]);
         }
-        
-        
-        if (secondValue != 5)
+
+        while (secondValue != 5 && board[secondValue + 1, firstValue - 1] == "0")
         {
-            while (board[secondValue + 1, firstValue - 1] == "0")
-            {
-                Console.WriteLine("Can't place floating chips! Try Again!");
-                tile = Console.ReadLine();
-                tileChars = tile.ToUpper().ToCharArray();
-                firstValue = tileChars[0] - '0';
-                secondValue = alph.IndexOf(tileChars[1]);
-            }
+            Console.WriteLine("Can't place floating chips! Try Again!");
+            tile = Console.ReadLine();
+            tileChars = tile.ToUpper().ToCharArray();
+            firstValue = tileChars[0] - '0';
+            secondValue = alph.IndexOf(tileChars[1]);
         }
+        
         
         while (board[secondValue,firstValue-1] == "1" || board[secondValue,firstValue-1] == "2")
         {
