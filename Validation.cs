@@ -22,7 +22,7 @@ public class Validation : Board
                 tile = Console.ReadLine().ToUpper();
 
             }
-            else if (tile[1] > 'F' || tile[0] - '0' > 7)
+            else if (tile[1] > 'F' || tile[0] - '0' > 7 || tile[0] - '0' <= 0)
             {
                 
                 Console.WriteLine("That not a valid move! Try Again!");
